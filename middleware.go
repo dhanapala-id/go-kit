@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dhanapala-id/go-idempotency/internal/responsewriter"
-	"github.com/dhanapala-id/go-idempotency/internal/store"
+	"github.com/dhanapala-id/go-idempotency/store"
 )
 
 const (
