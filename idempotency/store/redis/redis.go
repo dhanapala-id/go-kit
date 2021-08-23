@@ -8,7 +8,7 @@ import (
 
 	redis "github.com/go-redis/redis/v8"
 
-	"github.com/dhanapala-id/go-idempotency/store"
+	"github.com/dhanapala-id/go-kit/idempotency/store"
 )
 
 type redisStore struct {

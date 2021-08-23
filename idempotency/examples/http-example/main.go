@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	im "github.com/dhanapala-id/go-idempotency"
-	rs "github.com/dhanapala-id/go-idempotency/store/redis"
+	im "github.com/dhanapala-id/go-kit/idempotency"
+	rs "github.com/dhanapala-id/go-kit/idempotency/store/redis"
 
 	"github.com/go-zoo/bone"
 )
@@ -19,7 +19,7 @@ func init() {
 func main() {
 	mux := bone.New()
 
-	mux.Post("/check-idempotency", im.Check(http.HandlerFunc(simulateIdempotency)))
+	mux.Get("/check-idempotency", im.Check(http.HandlerFunc(simulateIdempotency)))
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }

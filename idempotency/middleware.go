@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dhanapala-id/go-idempotency/internal/responsewriter"
-	"github.com/dhanapala-id/go-idempotency/store"
+	"github.com/dhanapala-id/go-kit/idempotency/internal/responsewriter"
+	"github.com/dhanapala-id/go-kit/idempotency/store"
 )
 
 const (
