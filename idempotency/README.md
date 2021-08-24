@@ -1,5 +1,9 @@
 # Go Idempotency Middleware
 
+[![GoDoc](https://pkg.go.dev/badge/github.com/dhanapala-id/go-kit/idempotency)](https://pkg.go.dev/github.com/dhanapala-id/go-kit/idempotency)
+![GitHub Action main.yml](https://github.com/dhanapala-id/go-kit/actions/workflows/main.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dhanapala-id/go-kit/idempotency)](https://goreportcard.com/report/github.com/dhanapala-id/go-kit/idempotency)
+
 A Golang HTTP middleware to make requests idempotent if the client passes an `Idempotency-Key` header.
 
 ## How to use

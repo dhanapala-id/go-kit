@@ -17,12 +17,15 @@ const (
 var defaultInstance *Idempotency = New()
 
 type (
+	// Idempotency is the middleware object.
+	// By default this package already have a default middleware object that can be directly use.
 	Idempotency struct {
 		store           store.Store
 		keyName         string
 		keyExpiration   time.Duration
 		cacheExpiration time.Duration
 	}
+	// Option is used to customize the middleware object.
 	Option struct {
 		KeyName         *string
 		KeyExpiration   *time.Duration

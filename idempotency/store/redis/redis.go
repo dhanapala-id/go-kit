@@ -15,6 +15,7 @@ type redisStore struct {
 	db *redis.Client
 }
 
+// New returns a Store interface using Redis as the backend storage.
 func New(addr, password string, db int) store.Store {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     addr,
@@ -24,6 +25,7 @@ func New(addr, password string, db int) store.Store {
 	return &redisStore{db: rdb}
 }
 
+// Lock returns nil error when the locking sucess and return an error if it fails to acquire lock.
 func (s *redisStore) Lock(ctx context.Context, key string, exp time.Duration) error {
 	cacheKey := fmt.Sprintf("idemlock_%s", key)
 
@@ -53,6 +55,7 @@ func (s *redisStore) Lock(ctx context.Context, key string, exp time.Duration) er
 	return nil
 }
 
+// Unlock unlocks the lock key.
 func (s *redisStore) Unlock(ctx context.Context, key string) error {
 	cacheKey := fmt.Sprintf("idemlock_%s", key)
 	if err := s.db.Del(ctx, cacheKey).Err(); err != nil {
@@ -61,6 +64,7 @@ func (s *redisStore) Unlock(ctx context.Context, key string) error {
 	return nil
 }
 
+// Get return the store data that was cached in Redis database.
 func (s *redisStore) Get(ctx context.Context, key string) (*store.Data, error) {
 	cacheKey := fmt.Sprintf("idemdata_%s", key)
 	b, err := s.db.Get(ctx, cacheKey).Bytes()
@@ -78,6 +82,7 @@ func (s *redisStore) Get(ctx context.Context, key string) (*store.Data, error) {
 	return &data, nil
 }
 
+// Set stores the store data to the Redis database.
 func (s *redisStore) Set(ctx context.Context, key string, data *store.Data, exp time.Duration) error {
 	if data != nil && data.StatusCode == 0 {
 		data.StatusCode = 200
