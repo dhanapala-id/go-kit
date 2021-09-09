@@ -22,8 +22,9 @@ func New(rw http.ResponseWriter) *ResponseWriter {
 
 	return &ResponseWriter{
 		responseWriter: rw,
+		statusCode:     200,
 		buffer:         b,
-		writer:         io.MultiWriter(([]io.Writer{rw, b})...),
+		writer:         io.MultiWriter(rw, b),
 	}
 }
 
