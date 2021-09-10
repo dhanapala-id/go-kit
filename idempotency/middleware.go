@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dhanapala-id/go-kit/idempotency/internal/responsewriter"
 	"github.com/dhanapala-id/go-kit/idempotency/store"
+	"github.com/dhanapala-id/go-kit/responsewriter"
 )
 
 const (
@@ -112,7 +112,11 @@ func (o *Idempotency) Check(h http.Handler) http.Handler {
 		}
 
 		// create new response writer to support cache response body
-		w1 := responsewriter.New(w)
+		// use the current response writer if it's already an instance of responsewriter.ResponseWriter
+		w1, ok := w.(*responsewriter.ResponseWriter)
+		if !ok {
+			w1 = responsewriter.New(w)
+		}
 		h.ServeHTTP(w1, r)
 
 		// cache data
