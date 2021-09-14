@@ -120,11 +120,14 @@ func (o *Idempotency) Check(h http.Handler) http.Handler {
 		h.ServeHTTP(w1, r)
 
 		// cache data
-		o.store.Set(ctx, key, &store.Data{
-			StatusCode: w1.StatusCode(),
-			Header:     w1.Header().Clone(),
-			Body:       w1.Body(),
-		}, o.cacheExpiration)
+		statusCode := w1.StatusCode()
+		if statusCode >= http.StatusOK && statusCode < http.StatusBadRequest {
+			o.store.Set(ctx, key, &store.Data{
+				StatusCode: statusCode,
+				Header:     w1.Header().Clone(),
+				Body:       w1.Body(),
+			}, o.cacheExpiration)
+		}
 
 		// unlock key
 		o.store.Unlock(ctx, key)
