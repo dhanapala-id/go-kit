@@ -13,6 +13,8 @@ type roundTripper struct {
 	log       LogrusEntry
 }
 
+// NewRoundTripper creates a new round tripper instance that implements http.RoundTripper
+// with input log.Logger, logrus.Logger or logrus.Entry.
 func NewRoundTripper(rt http.RoundTripper, logger Logger) *roundTripper {
 	llog, ok := logger.(LogrusEntry)
 	if !ok {
@@ -21,6 +23,7 @@ func NewRoundTripper(rt http.RoundTripper, logger Logger) *roundTripper {
 	return &roundTripper{rt, llog}
 }
 
+// RoundTrip intercepts the request and log the request and response to the logger.
 func (rt roundTripper) RoundTrip(req *http.Request) (res *http.Response, err error) {
 	var reqBytes []byte
 	if req.Body != nil {

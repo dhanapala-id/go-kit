@@ -15,6 +15,7 @@ type middleware struct {
 	log LogrusEntry
 }
 
+// NewMiddleware creates a middleware instance with input log.Logger, logrus.Logger or logrus.Entry.
 func NewMiddleare(logger Logger) *middleware {
 	llog, ok := logger.(LogrusEntry)
 	if !ok {
@@ -23,6 +24,7 @@ func NewMiddleare(logger Logger) *middleware {
 	return &middleware{log: llog}
 }
 
+// Log is the middleware handler, it will log the request and response to the logger.
 func (mw *middleware) Log(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var buf bytes.Buffer
